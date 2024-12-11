@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
 let links = {}; // Stockage temporaire des liens intelligents
+
+/* GET home page */
+router.get('/', function (req, res, next) {
+    res.render('index', { title: 'Express' });
+});
 
 // Route POST pour générer un lien intelligent
 router.post('/generate-link', (req, res) => {
@@ -22,7 +22,7 @@ router.post('/generate-link', (req, res) => {
 
     // Retourner le lien généré
     res.json({ smartLink: `https://projet-yaniv.vercel.app/${linkId}` });
-
+});
 
 // Route GET pour rediriger en fonction de l'ID
 router.get('/:id', (req, res) => {
@@ -46,4 +46,3 @@ router.get('/:id', (req, res) => {
 });
 
 module.exports = router; // Doit être à la fin après la déclaration des routes
-
