@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de liens intelligents</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input {
+            width: 300px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Générateur de liens intelligents</h1>
+    <p>Entrez l'URL de votre chaîne YouTube pour générer un lien intelligent :</p>
+    <input type="text" id="youtubeUrl" placeholder="Entrez votre URL YouTube" />
+    <button id="generateButton">Créer un lien</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('generateButton').addEventListener('click', async () => {
+            const youtubeUrl = document.getElementById('youtubeUrl').value;
+
+            if (!youtubeUrl) {
+                document.getElementById('result').innerText = "Veuillez entrer une URL YouTube.";
+                return;
+            }
+
+            try {
+                const response = await fetch('/generate-link', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ youtubeUrl }),
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    document.getElementById('result').innerText = `Erreur : ${data.error}`;
+                } else {
+                    document.getElementById('result').innerHTML = `
+                        Lien généré : <a href="${data.smartLink}" target="_blank">${data.smartLink}</a>
+                    `;
+                }
+            } catch (error) {
+                console.error('Erreur réseau :', error);
+                document.getElementById('result').innerText = "Une erreur s'est produite.";
+            }
+        });
+    </script>
+</body>
+</html>
