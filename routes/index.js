@@ -21,7 +21,7 @@ router.post('/generate-link', (req, res) => {
     links[linkId] = { youtubeUrl };
 
     // Retourner le lien généré
-    res.json({ smartLink: `http://localhost:3000/${linkId}` });
+    res.json({ smartLink: `http://https://projet-yaniv.vercel.app//${linkId}` });
 });
 
 // Route GET pour rediriger en fonction de l'ID
