@@ -13,7 +13,7 @@ router.post('/generate-link', (req, res) => {
     const linkId = `link-${Date.now()}`;
     links[linkId] = { youtubeUrl };
 
-    res.json({ smartLink: `https://your-domain.com/${linkId}` }); // Remplacez "your-domain.com" par votre domaine
+    res.json({ smartLink: `https://projet-yaniv.vercel.app//${linkId}` }); // Remplacez "your-domain.com" par votre domaine
 });
 
 // Route GET pour gérer la redirection avec délai
