@@ -7,9 +7,7 @@ let links = {}; // Stockage temporaire des liens intelligents
 router.post('/generate-link', (req, res) => {
     const youtubeUrl = req.body.youtubeUrl;
 
-    if (!youtubeUrl || !youtubeUrl.includes('youtube.com')) {
-        return res.status(400).json({ error: 'URL YouTube invalide.' });
-    }
+
 
     // Générer un identifiant unique pour le lien
     const linkId = `link-${Date.now()}`;
