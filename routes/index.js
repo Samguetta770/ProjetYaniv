@@ -1,48 +1,49 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 let links = {}; // Stockage temporaire des liens intelligents
 
-/* GET home page */
-router.get('/', function (req, res, next) {
-    res.render('index', { title: 'Express' });
-});
-
-// Route POST pour générer un lien intelligent
+// Générer un lien intermédiaire
 router.post('/generate-link', (req, res) => {
-    const youtubeUrl = req.body.youtubeUrl;
+    const { destinationUrl } = req.body;
 
-    if (!youtubeUrl || !youtubeUrl.includes('youtube.com')) {
-        return res.status(400).json({ error: 'URL YouTube invalide.' });
+    if (!destinationUrl || !destinationUrl.startsWith('http')) {
+        return res.status(400).json({ error: 'URL invalide.' });
     }
 
-    // Générer un identifiant unique pour le lien
-    const linkId = `link-${Date.now()}`;
-    links[linkId] = { youtubeUrl };
+    const uniqueId = `link-${Date.now()}`; // Crée un identifiant unique
+    links[uniqueId] = destinationUrl; // Stocke l'URL cible avec cet ID
 
-    // Retourner le lien généré
-    res.json({ smartLink: `https://projet-yaniv.vercel.app/${linkId}` });
+    res.json({ smartLink: `https://projet-yaniv.vercel.app/${uniqueId}` });
 });
 
-// Route GET pour rediriger en fonction de l'ID
+// Redirection intermédiaire
 router.get('/:id', (req, res) => {
     const linkId = req.params.id;
-    const link = links[linkId];
+    const destinationUrl = links[linkId];
 
-    if (!link) {
+    if (!destinationUrl) {
         return res.status(404).send('Lien non trouvé.');
     }
 
-    const userAgent = req.headers['user-agent'].toLowerCase();
-
-    // Détection du type d'appareil
-    if (/android/.test(userAgent)) {
-        res.redirect(`youtube://`);
-    } else if (/iphone|ipad/.test(userAgent)) {
-        res.redirect(`youtube://`);
-    } else {
-        res.redirect(link.youtubeUrl); // Redirige vers le site web
-    }
+    // Page intermédiaire avec délai avant redirection
+    res.send(`
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Redirection...</title>
+            <script>
+                setTimeout(() => {
+                    window.location.href = "${destinationUrl}";
+                }, 3000); // Délai de 3 secondes
+            </script>
+        </head>
+        <body>
+            <p>Redirection en cours... Si cela prend trop de temps, <a href="${destinationUrl}">cliquez ici</a>.</p>
+        </body>
+        </html>
+    `);
 });
 
-module.exports = router; // Doit être à la fin après la déclaration des routes
+module.exports = router;
