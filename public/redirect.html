@@ -23,17 +23,17 @@
 <body>
     <h1>Redirection vers YouTube...</h1>
     <script>
-        // Extraire l'URL cible des paramètres de requête
         const params = new URLSearchParams(window.location.search);
-        const youtubeUrl = params.get('youtubeUrl');
+        const youtubeUrl = params.get('youtube');
 
         if (youtubeUrl) {
-            // Rediriger vers l'application YouTube
+            // Redirige vers l'application YouTube après 1 seconde
             setTimeout(() => {
                 window.location.href = `youtube://${youtubeUrl}`;
-            }, 1000); // Délai avant redirection (1 seconde)
+            }, 1000);
         } else {
-            document.body.innerHTML = "<h1>URL YouTube manquante !</h1>";
+            // Affiche un message d'erreur si l'URL est absente
+            document.body.innerHTML = "<h1>Erreur : URL YouTube non valide.</h1>";
         }
     </script>
 </body>
