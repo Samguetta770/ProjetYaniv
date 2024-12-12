@@ -14,7 +14,7 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
         }
-        h1 {
+        h1, p {
             text-align: center;
             color: #333;
         }
@@ -32,8 +32,12 @@
                 window.location.href = `youtube://${youtubeUrl}`;
             }, 1000);
         } else {
-            // Affiche un message d'erreur si l'URL est absente
-            document.body.innerHTML = "<h1>Erreur : URL YouTube non valide.</h1>";
+            // Affiche un message d'erreur avec le lien fourni
+            const currentUrl = window.location.href;
+            document.body.innerHTML = `
+                <h1>Erreur : URL YouTube non valide.</h1>
+                <p>Voici l'URL fournie : <code>${currentUrl}</code></p>
+            `;
         }
     </script>
 </body>
