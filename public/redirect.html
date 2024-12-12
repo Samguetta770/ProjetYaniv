@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirection vers YouTube</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Redirection vers YouTube...</h1>
+    <script>
+        // Extraire l'URL cible des paramètres de requête
+        const params = new URLSearchParams(window.location.search);
+        const youtubeUrl = params.get('youtubeUrl');
+
+        if (youtubeUrl) {
+            // Rediriger vers l'application YouTube
+            setTimeout(() => {
+                window.location.href = `youtube://${youtubeUrl}`;
+            }, 1000); // Délai avant redirection (1 seconde)
+        } else {
+            document.body.innerHTML = "<h1>URL YouTube manquante !</h1>";
+        }
+    </script>
+</body>
+</html>
